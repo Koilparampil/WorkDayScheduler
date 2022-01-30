@@ -14,6 +14,9 @@ var hourDisplay = [
     "7PM",
     "8PM",
     "9PM",
+    "10PM",
+    "11PM",
+    "12AM"
   ];
 
 function SetUp(){
@@ -27,7 +30,7 @@ function SetUp(){
         //first get the index of the iterated time that is not equal to the current
         getIndex = hourDisplay.indexOf(currentHour);
         currentTimeIndex = i;
-        console.log(currentTimeIndex)
+        //console.log(currentTimeIndex)
     
         if (currentHour === hourDisplayinfo) {
           //define the input field to add style during loop based on current time
@@ -61,11 +64,13 @@ function SetUp(){
 }
 //initial page load
 SetUp();
-var allTheNotes = []
+allTheNotes=JSON.parse(localStorage.getItem('allTheNotes')) || []
 $.each(hourDisplay, function (i, hourDisplayinfo) {
     $.each(allTheNotes,function(i,timenotes){
         if(hourDisplayinfo==timenotes.timeNow){
-            $(`[data-time=${hourDisplayinfo}]`).val(timenotes.noteContents)
+           // $(`[data-time=${hourDisplayinfo}]`).val(timenotes.noteContents)
+           document.querySelectorAll(`[data-time='${hourDisplayinfo}']`)[0].value=timenotes.noteContents;
+            console.log(document.querySelectorAll(`[data-time='${hourDisplayinfo}']`)[0])
         }
     })
 
@@ -86,7 +91,7 @@ allTheNotes.push({
     timeNow: event.currentTarget.dataset.time,
     noteContents: $(this).prev()[0].value
 })
-localStorage.setItem("allTheNotes",allTheNotes)
+localStorage.setItem("allTheNotes",JSON.stringify(allTheNotes))
 console.log(allTheNotes)
 
 })

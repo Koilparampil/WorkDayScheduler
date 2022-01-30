@@ -46,13 +46,14 @@ function SetUp(){
     
         //create a row with 3 columns
         var row = $(`<div class='row'>
-        <div class="col-2 text-right border-top border-bottom p-3 time">
-                ${hourDisplayinfo}
-            </div>
-            ${inputEl}
-            <button class="btn-sm btn-info col-2 border-top border-bottom p-3 save">
-                Save <i class="far fa-save"></i>
-            </button>`);
+        <div class="col-2 hour">
+        ${hourDisplayinfo}
+        </div>
+        ${inputEl}
+        <button class="col-2 saveBtn">
+            Save <span class="fa fa-save"></span>
+        </button>
+      </div>`);
         $(".container").append(row);
       });     
 }

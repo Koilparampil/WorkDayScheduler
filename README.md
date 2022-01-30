@@ -1,4 +1,4 @@
-# Day-Planner
+# Work Day Scheduler
 ## Table Of Contents
 - [Description](#Description)
 - [Technology](#Technology)

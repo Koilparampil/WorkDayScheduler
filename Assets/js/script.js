@@ -21,7 +21,6 @@ function SetUp(){
         //console.log(hourDisplayinfo);
         //console.log(i)
         //first get the index of the iterated time 
-        getIndex = hourDisplay.indexOf(currentHour);
         currentTimeIndex = i;
         //console.log(currentTimeIndex)
     //we're in the loop of setting up the Hours, so if the display hour is the same as the real current hour, the input should be the present
@@ -29,7 +28,7 @@ function SetUp(){
           inputEl = `<input type='text' class='present col border-0 note' data-time=${hourDisplayinfo} name=${hourDisplayinfo} />`;
         } else {
             //if the hour displayed is not the hour it is then check if the hour is coming up,
-          if (getIndex !== -1 && getIndex < currentTimeIndex) {
+          if (hourDisplay.indexOf(currentHour) !== -1 && hourDisplay.indexOf(currentHour) < currentTimeIndex) {
             //make the elements green if teh hour is coming up
             inputEl = `<input type='text' class='future col border-0' data-time=${hourDisplayinfo} name=${hourDisplayinfo}/>`;
           } else {

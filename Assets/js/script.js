@@ -1,27 +1,29 @@
 $("#currentDay").text(moment().format("MMMM Do YYYY"));
 
+var hourDisplay = [
+    "9AM",
+    "10AM",
+    "11AM",
+    "12PM",
+    "1PM",
+    "2PM",
+    "3PM",
+    "4PM",
+    "5PM",
+    "6PM",
+    "7PM",
+    "8PM",
+    "9PM",
+  ];
+
 function SetUp(){
-    var hourDisplay = [
-        "9AM",
-        "10AM",
-        "11AM",
-        "12PM",
-        "1PM",
-        "2PM",
-        "3PM",
-        "4PM",
-        "5PM",
-        "6PM",
-        "7PM",
-        "8PM",
-        "9PM",
-      ];
+
     var currentHour = (moment().format("ha")).toUpperCase();
-    console.log(currentHour)
+    //console.log(currentHour)
     
     $.each(hourDisplay, function (i, hourDisplayinfo) {
-        console.log(hourDisplayinfo);
-        console.log(i)
+        //console.log(hourDisplayinfo);
+        //console.log(i)
         //first get the index of the iterated time that is not equal to the current
         getIndex = hourDisplay.indexOf(currentHour);
         currentTimeIndex = i;
@@ -29,7 +31,7 @@ function SetUp(){
     
         if (currentHour === hourDisplayinfo) {
           //define the input field to add style during loop based on current time
-          inputEl = `<input type='text' class='bg-danger col border p-3 note text-light' value='' data-time=${hourDisplayinfo} />`;
+          inputEl = `<input type='text' class='present col border-0 note' data-time=${hourDisplayinfo} name=${hourDisplayinfo} />`;
           //capture index
         } else {
           //for times other than the current time, turn them blue or gray
@@ -37,24 +39,54 @@ function SetUp(){
           //if in the work day time period but not the curren time and after the current iteration
           if (getIndex !== -1 && getIndex < currentTimeIndex) {
             //make the elements green to indicate availibility
-            inputEl = `<input type='text' class='bg-success col border p-3 note text-light' value='' data-time=${hourDisplayinfo} />`;
+            inputEl = `<input type='text' class='future col border-0' data-time=${hourDisplayinfo} name=${hourDisplayinfo}/>`;
           } else {
             //set all other timeslots to gray
-            inputEl = `<input type='text' class='bg-secondary col border p-3 note text-dark' value='' data-time=${hourDisplayinfo} />`;
+            inputEl = `<input type='text' class='past col border-0' data-time=${hourDisplayinfo} name=${hourDisplayinfo} />`;
           }
         }
-    
         //create a row with 3 columns
-        var row = $(`<div class='row'>
-        <div class="col-2 hour">
+        var row = $(`<div class='row'>        <div class="col-2 hour">
         ${hourDisplayinfo}
         </div>
         ${inputEl}
-        <button class="col-2 saveBtn">
+        <button class="col-2 saveBtn" data-time=${hourDisplayinfo}>
             Save <span class="fa fa-save"></span>
         </button>
       </div>`);
         $(".container").append(row);
-      });     
+
+    
+      });
 }
+//initial page load
 SetUp();
+var allTheNotes = []
+$.each(hourDisplay, function (i, hourDisplayinfo) {
+    $.each(allTheNotes,function(i,timenotes){
+        if(hourDisplayinfo==timenotes.timeNow){
+            $(`[data-time=${hourDisplayinfo}]`).val(timenotes.noteContents)
+        }
+    })
+
+});
+
+
+
+
+
+
+
+// refresh the set up every hour
+setInterval(SetUp,3600000);
+
+
+$(".saveBtn").on("click",function(event){
+allTheNotes.push({
+    timeNow: event.currentTarget.dataset.time,
+    noteContents: $(this).prev()[0].value
+})
+localStorage.setItem("allTheNotes",allTheNotes)
+console.log(allTheNotes)
+
+})
